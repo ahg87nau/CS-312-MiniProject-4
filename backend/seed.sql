@@ -13,12 +13,12 @@ TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 -- ======================
 -- USERS
 -- ======================
-INSERT INTO users (user_id, password, name)
+INSERT INTO users (user_id, password, name, age, occupation, city)
 VALUES
-  ('demo', md5('demoPwd'), 'Demo User'),
-  ('ahmed', md5('password123'), 'Ahmed'),
-  ('sara', md5('letmein456'), 'Sara'),
-  ('eric', md5('charlie789'), 'Eric');
+  ('demo', md5('demoPwd'), 'Demo User', 25, 'Student', 'Flagstaff'),
+  ('ahmed', md5('password123'), 'Ahmed', 28, 'IT Engineer', 'Santa Clara'),
+  ('sara', md5('letmein456'), 'Sara', 32, 'Software Developer', 'Phoenix'),
+  ('eric', md5('charlie789'), 'Eric', 29, 'UI/UX Designer', 'Tempe');
 
 -- ======================
 -- BLOGS
@@ -43,4 +43,3 @@ SELECT 'Blogs:' AS section;
 SELECT * FROM blogs;
 
 -- End of file
-
