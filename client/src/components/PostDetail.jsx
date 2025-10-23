@@ -39,9 +39,9 @@ export default function PostDetail() {
 
         <p style={{ whiteSpace: "pre-line" }}>{post.body}</p>
 
-        <footer className="mt-4">
-          <Link to="/posts" className="btn btn-outline-primary">
-            ← Back to Posts
+        <footer className="post-detail-footer">
+          <Link to="/posts" className="btn back-btn">
+             ← Back to Posts
           </Link>
         </footer>
       </article>

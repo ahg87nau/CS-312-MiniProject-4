@@ -301,6 +301,27 @@ html, body {
   transform: translateY(0);
 }
 
+/* === Post Detail Button === */
+.post-detail-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.back-btn {
+  background: var(--accent);
+  color: #001018;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  display: inline-block;
+}
+
+.back-btn:hover {
+  background: #78c1ff;
+  transform: translateY(-1px);
+}
 
 /* === Mobile Responsive === */
 @media (max-width: 720px) {
