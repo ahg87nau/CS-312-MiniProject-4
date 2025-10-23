@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { api } from '../api';
+import { Link } from "react-router-dom";
+
 
 
 export default function SignIn({ onSignedIn }) {
@@ -17,14 +19,29 @@ onSignedIn?.(r.user);
 } catch (err) { setError(err.message); }
 }
 
-
 return (
-<form className="card" onSubmit={submit}>
-<h2>Sign in</h2>
-{error && <p className="error">{error}</p>}
-<label>User ID<input name="user_id" value={form.user_id} onChange={update} required /></label>
-<label>Password<input type="password" name="password" value={form.password} onChange={update} required /></label>
-<button className="btn" type="submit">Sign in</button>
-</form>
+  <form className="card" onSubmit={submit}>
+    <h2>Sign in</h2>
+    {error && <p className="error">{error}</p>}
+
+    <label>
+      User ID
+      <input name="user_id" value={form.user_id} onChange={update} required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" value={form.password} onChange={update} required />
+    </label>
+
+    <button className="btn" type="submit">Sign in</button>
+
+    <p style={{ marginTop: "1rem", textAlign: "center" }}>
+      Don’t have an account?{" "}
+      <Link to="/signup" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: "600" }}>
+        Sign Up
+      </Link>
+    </p>
+  </form>
 );
 }

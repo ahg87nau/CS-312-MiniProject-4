@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../api';
-
+import { Link } from "react-router-dom";
 
 export default function SignUp({ onSignedUp }) {
 const [form, setForm] = useState({ user_id: '', password: '', name: '', age: '', occupation: '', city: '' });
@@ -18,20 +18,50 @@ onSignedUp?.();
 } catch (err) { setError(err.message); }
 }
 
-
 return (
-<form className="card" onSubmit={submit}>
-<h2>Create an account</h2>
-{error && <p className="error">{error}</p>}
-<label>User ID<input name="user_id" value={form.user_id} onChange={update} required /></label>
-<label>Password<input type="password" name="password" value={form.password} onChange={update} required /></label>
-<label>Name<input name="name" value={form.name} onChange={update} required /></label>
-<div className="grid2">
-<label>Age<input name="age" value={form.age} onChange={update} /></label>
-<label>Occupation<input name="occupation" value={form.occupation} onChange={update} /></label>
-</div>
-<label>City<input name="city" value={form.city} onChange={update} /></label>
-<button className="btn" type="submit">Sign up</button>
-</form>
+  <form className="card" onSubmit={submit}>
+    <h2>Create an account</h2>
+    {error && <p className="error">{error}</p>}
+
+    <label>
+      User ID
+      <input name="user_id" value={form.user_id} onChange={update} required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" value={form.password} onChange={update} required />
+    </label>
+
+    <label>
+      Name
+      <input name="name" value={form.name} onChange={update} required />
+    </label>
+
+    <div className="grid2">
+      <label>
+        Age
+        <input name="age" value={form.age} onChange={update} />
+      </label>
+      <label>
+        Occupation
+        <input name="occupation" value={form.occupation} onChange={update} />
+      </label>
+    </div>
+
+    <label>
+      City
+      <input name="city" value={form.city} onChange={update} />
+    </label>
+
+    <button className="btn" type="submit">Sign up</button>
+
+    <p style={{ marginTop: "1rem", textAlign: "center" }}>
+      Already have an account?{" "}
+      <Link to="/signin" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: "600" }}>
+        Sign In
+      </Link>
+    </p>
+  </form>
 );
 }

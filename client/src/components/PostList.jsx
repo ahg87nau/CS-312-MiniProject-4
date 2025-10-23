@@ -33,7 +33,8 @@ export default function PostList({ user }) {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container posts-container mt-4">
+
       {/* Toolbar */}
       <div
         className="d-flex justify-content-between align-items-center mb-3"
@@ -68,18 +69,17 @@ export default function PostList({ user }) {
         </p>
       )}
 
-      {/* Post list */}
-      <div className="vstack gap-4">
+      {/* Post grid */}
+      <div className="post-grid">
         {posts.map((p) => (
           <article
             key={p.blog_id}
-            className="card shadow-sm border-0"
+            className="card shadow-sm border-0 post-card"
             style={{ borderRadius: "12px" }}
           >
             <div className="card-body">
               <header className="mb-2">
                 <h3 className="h5 mb-1">
-                  {/* Make title clickable instead of using a “View” button */}
                   <Link
                     to={`/posts/${p.blog_id}`}
                     style={{
@@ -104,31 +104,30 @@ export default function PostList({ user }) {
               </p>
 
               <footer className="post-footer">
-  <div className="mb-2">
-    <span className="badge bg-secondary">
-      {p.category || "Uncategorized"}
-    </span>
-  </div>
+                <div className="mb-2">
+                  <span className="badge bg-secondary">
+                    {p.category || "Uncategorized"}
+                  </span>
+                </div>
 
-  {user?.user_id === p.creator_user_id && (
-    <div className="actions-row mt-2">
-      <Link
-        className="btn btn-sm btn-outline-primary"
-        to={`/edit/${p.blog_id}`}
-       >
-       Edit
-       </Link>
-       <button
-       className="btn btn-sm btn-outline-danger"
-       onClick={() => remove(p.blog_id)}
-       >
-      Delete
-      </button>
-      </div>
-      )}
-      </footer>
-
-      </div>
+                {user?.user_id === p.creator_user_id && (
+                  <div className="actions-row mt-2">
+                    <Link
+                      className="btn btn-sm btn-outline-primary"
+                      to={`/edit/${p.blog_id}`}
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => remove(p.blog_id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </footer>
+            </div>
           </article>
         ))}
       </div>
