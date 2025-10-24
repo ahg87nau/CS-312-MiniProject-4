@@ -122,7 +122,7 @@ export class PostgresDAO {
 
   async updatePost(id, { title, body, category, user_id }) {
     // Ensure ownership
-    const { rows: ownerCheck } = await this.pool.query(
+   const { rows: ownerCheck } = await this.pool.query(
       "SELECT creator_user_id FROM blogs WHERE blog_id=$1",
       [id]
     );
@@ -131,13 +131,21 @@ export class PostgresDAO {
     if (ownerCheck[0].creator_user_id !== user_id)
       throw new Error("Forbidden");
 
+    // Perform update
     await this.pool.query(
       "UPDATE blogs SET title=$1, body=$2, category=$3 WHERE blog_id=$4",
       [title, body, category || null, id]
     );
+
+    //Return the updated row to the frontend
+    const { rows } = await this.pool.query(
+      "SELECT blog_id, title, body, category, creator_name, creator_user_id, date_created FROM blogs WHERE blog_id=$1",
+      [id]
+    );
+    return rows[0];
   }
 
-  async deletePost(id, user_id) {
+    async deletePost(id, user_id) {
     const { rows } = await this.pool.query(
       "SELECT creator_user_id FROM blogs WHERE blog_id=$1",
       [id]
@@ -147,13 +155,9 @@ export class PostgresDAO {
     if (rows[0].creator_user_id !== user_id)
       throw new Error("Forbidden");
     await this.pool.query("DELETE FROM blogs WHERE blog_id=$1", [id]);
+
+    // Return confirmation to backend route
+    return { ok: true };
   }
 
-  async listPostsByUser(user_id) {
-    const { rows } = await this.pool.query(
-      "SELECT * FROM blogs WHERE creator_user_id=$1 ORDER BY date_created DESC",
-      [user_id]
-    );
-    return rows;
-  }
 }

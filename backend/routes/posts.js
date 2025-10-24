@@ -66,7 +66,12 @@ export function makePostsRouter(dao) {
       if (post.creator_user_id !== req.session.user.user_id)
         return res.status(403).json({ error: "Forbidden" });
 
-      const updated = await dao.updatePost(req.params.id, req.body);
+      // Pass user_id to DAO for ownership validation in PostgresDAO
+      const updated = await dao.updatePost(req.params.id, {
+        ...req.body,
+        user_id: req.session.user.user_id,
+      });
+
       return res.json(updated);
     } catch (err) {
       console.error("Error updating post:", err);
@@ -77,12 +82,13 @@ export function makePostsRouter(dao) {
   // Delete post
   router.delete("/:id", requireAuth, async (req, res) => {
     try {
-      const post = await dao.getPostById(req.params.id); 
+      const post = await dao.getPostById(req.params.id);
       if (!post) return res.status(404).json({ error: "Not found" });
       if (post.creator_user_id !== req.session.user.user_id)
         return res.status(403).json({ error: "Forbidden" });
 
-      await dao.deletePost(req.params.id);
+      //Pass user_id to DAO for ownership validation in PostgresDAO
+      await dao.deletePost(req.params.id, req.session.user.user_id);
       return res.json({ ok: true });
     } catch (err) {
       console.error("Error deleting post:", err);

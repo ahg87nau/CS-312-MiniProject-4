@@ -88,6 +88,10 @@ export class MemoryDAO {
     return this.posts.get(Number(id)) || null;
   }
 
+  async getPostById(id) {
+    return this.getPost(id);
+  }
+
   async createPost({ title, body, category, creator_user_id, creator_name }) {
     const id = this._nextId++;
     const post = {
@@ -115,6 +119,7 @@ export class MemoryDAO {
   async deletePost(id) {
     this.posts.delete(Number(id));
   }
+
 
   async listUserPosts(user_id) {
     return Array.from(this.posts.values()).filter(
