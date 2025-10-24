@@ -113,16 +113,20 @@ export class PostgresDAO {
     return rows[0] || null;
   }
 
+  // Create post
   async createPost({ title, body, category, creator_user_id, creator_name }) {
-    await this.pool.query(
-      "INSERT INTO blogs (title, body, category, creator_user_id, creator_name) VALUES ($1,$2,$3,$4,$5)",
+    const { rows } = await this.pool.query(
+      `INSERT INTO blogs (title, body, category, creator_user_id, creator_name)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING blog_id, title, body, category, creator_user_id, creator_name, date_created`,
       [title, body, category || null, creator_user_id, creator_name]
     );
+    return rows[0];
   }
 
   async updatePost(id, { title, body, category, user_id }) {
     // Ensure ownership
-   const { rows: ownerCheck } = await this.pool.query(
+    const { rows: ownerCheck } = await this.pool.query(
       "SELECT creator_user_id FROM blogs WHERE blog_id=$1",
       [id]
     );
@@ -137,7 +141,7 @@ export class PostgresDAO {
       [title, body, category || null, id]
     );
 
-    //Return the updated row to the frontend
+    // Return updated row to frontend
     const { rows } = await this.pool.query(
       "SELECT blog_id, title, body, category, creator_name, creator_user_id, date_created FROM blogs WHERE blog_id=$1",
       [id]
@@ -145,7 +149,7 @@ export class PostgresDAO {
     return rows[0];
   }
 
-    async deletePost(id, user_id) {
+  async deletePost(id, user_id) {
     const { rows } = await this.pool.query(
       "SELECT creator_user_id FROM blogs WHERE blog_id=$1",
       [id]
@@ -160,4 +164,12 @@ export class PostgresDAO {
     return { ok: true };
   }
 
+  // list User Posts
+  async listUserPosts(user_id) {
+    const { rows } = await this.pool.query(
+      "SELECT blog_id, title, body, category, creator_name, creator_user_id, date_created FROM blogs WHERE creator_user_id=$1 ORDER BY date_created DESC",
+      [user_id]
+    );
+    return rows;
+  }
 }
