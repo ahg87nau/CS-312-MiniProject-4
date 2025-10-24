@@ -1,5 +1,5 @@
 -- =================================================================
---  BlogDB Schema Data Script
+--  blogdb Schema Data Script
 --  Author: Ahmed Gasim
 --  Purpose: define and set up the structure of the DB for the blog
 -- =================================================================

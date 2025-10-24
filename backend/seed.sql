@@ -1,5 +1,5 @@
 -- =========================================================
---  BlogDB Seed Data Script
+--  blogdb Seed Data Script
 --  Author: Ahmed Gasim
 --  Purpose: Populate initial users and blog posts
 -- =========================================================
